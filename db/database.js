@@ -1,0 +1,111 @@
+const low = require('lowdb');
+const FileSync = require('lowdb/adapters/FileSync');
+const path = require('path');
+
+// Use /tmp on cloud hosting (Railway/Render), local db folder otherwise
+const dbPath = process.env.NODE_ENV === 'production'
+  ? path.join('/tmp', 'krushi.json')
+  : path.join(__dirname, 'krushi.json');
+
+const adapter = new FileSync(dbPath);
+const db = low(adapter);
+
+db.defaults({
+  contacts: [],
+  services: [],
+  gallery: [],
+  products: [],
+  company: {},
+  admin: {}
+}).write();
+
+// Seed admin credentials if empty
+if (!db.get('admin.username').value()) {
+  db.set('admin', { username: 'admin', password: 'krushi@123' }).write();
+}
+
+// Seed company info if empty
+if (!db.get('company.name').value()) {
+  db.set('company', {
+    name: 'Shree Dharidevar Raith Krushi Seva Kendra',
+    tagline: 'Your Trusted Partner in Agriculture Solutions',
+    address: 'Near Busstand Jatta, Kamamadi, Main Road, Karnataka – 586114, India',
+    phone: '070900 80289',
+    email: '',
+    status: 'temporarily_closed',
+    status_message: 'We are currently Temporarily Closed. We will reopen soon.',
+    about: 'Shree Dharidevar Raith Krushi Seva Kendra is a trusted agricultural service center located in the heart of Jatta, Karnataka. We have been serving the farming community with quality products and expert guidance for over a decade.',
+    kannada_name: 'ಶ್ರೀ ಧಾರಿದೇವರ ರೈತ ಕೃಷಿ ಸೇವಾ ಕೇಂದ್ರ',
+    open_time: '09:00',
+    close_time: '18:00',
+    open_days: 'Monday – Saturday',
+    sunday_closed: true
+  }).write();
+}
+
+// Seed services if empty
+if (db.get('services').size().value() === 0) {
+  db.get('services').push(
+    { id: 1, name: 'Seeds Supply', description: 'Premium quality certified seeds for all major crops including paddy, wheat, jowar, sunflower, and vegetables.', icon: '🌱', color: '#2d6a4f' },
+    { id: 2, name: 'Fertilizers', description: 'Wide range of organic and chemical fertilizers to boost soil health and maximize crop yield.', icon: '🧪', color: '#52b788' },
+    { id: 3, name: 'Pesticides', description: 'Effective and safe pesticides, herbicides, and fungicides to protect your crops from pests and diseases.', icon: '🛡️', color: '#74c69d' },
+    { id: 4, name: 'Farming Consultation', description: 'Expert guidance from experienced agronomists on crop selection, soil management, and modern farming techniques.', icon: '👨🌾', color: '#40916c' },
+    { id: 5, name: 'Agricultural Tools', description: 'Quality farming tools and equipment to make your agricultural work easier and more efficient.', icon: '🔧', color: '#1b4332' },
+    { id: 6, name: 'Soil Testing', description: 'Professional soil testing services to understand your soil composition and get personalized fertilizer recommendations.', icon: '🔬', color: '#95d5b2' }
+  ).write();
+}
+
+// Seed gallery if empty
+if (db.get('gallery').size().value() === 0) {
+  db.get('gallery').push(
+    { id: 1,  title: 'Quality Seeds Collection',   image_url: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600',  category: 'seeds' },
+    { id: 2,  title: 'Organic Fertilizers',         image_url: 'https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=600',  category: 'fertilizers' },
+    { id: 3,  title: 'Modern Farming',              image_url: 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=600',  category: 'farming' },
+    { id: 4,  title: 'Crop Protection',             image_url: 'https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=600',  category: 'pesticides' },
+    { id: 5,  title: 'Farmer Support',              image_url: 'https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=600',  category: 'consultation' },
+    { id: 6,  title: 'Agricultural Tools',          image_url: 'https://images.unsplash.com/photo-1592982537447-7440770cbfc9?w=600',  category: 'tools' },
+    { id: 7,  title: 'Fresh Grapes',                image_url: 'https://images.unsplash.com/photo-1537640538966-79f369143f8f?w=600',  category: 'crops' },
+    { id: 8,  title: 'Pomegranate Farm',            image_url: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=600',  category: 'crops' },
+    { id: 9,  title: 'Corn / Maize Crop',           image_url: 'https://images.unsplash.com/photo-1601593346740-925612772716?w=600',  category: 'crops' },
+    { id: 10, title: 'Wheat Fields',                image_url: 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=600',  category: 'crops' },
+    { id: 11, title: 'Sunflower Crop',              image_url: 'https://images.unsplash.com/photo-1597848212624-a19eb35e2651?w=600',  category: 'crops' },
+    { id: 12, title: 'Tomato Farming',              image_url: 'https://images.unsplash.com/photo-1592841200221-a6898f307baa?w=600',  category: 'crops' },
+    { id: 13, title: 'Onion Harvest',               image_url: 'https://images.unsplash.com/photo-1618512496248-a07fe83aa8cb?w=600',  category: 'crops' },
+    { id: 14, title: 'Sugarcane Fields',            image_url: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=600',  category: 'crops' },
+    { id: 15, title: 'Paddy / Rice Fields',         image_url: 'https://images.unsplash.com/photo-1536054985673-4f434f9e5a4e?w=600',  category: 'crops' },
+    { id: 16, title: 'Mango Orchard',               image_url: 'https://images.unsplash.com/photo-1553279768-865429fa0078?w=600',  category: 'crops' },
+    { id: 17, title: 'Banana Plantation',           image_url: 'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=600',  category: 'crops' },
+    { id: 18, title: 'Chilli Crop',                 image_url: 'https://images.unsplash.com/photo-1583119022894-919a68a3d0e3?w=600',  category: 'crops' },
+    { id: 19, title: 'Green Fields Karnataka',      image_url: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600',  category: 'farming' },
+    { id: 20, title: 'Harvest Season',              image_url: 'https://images.unsplash.com/photo-1560493676-04071c5f467b?w=600',  category: 'farming' }
+  ).write();
+}
+
+// Seed products if empty
+if (db.get('products').size().value() === 0) {
+  db.get('products').push(
+    // ---- FEATURED CROPS ----
+    { id: 1,  name: 'Grapes (Angur)',         image_url: 'https://images.unsplash.com/photo-1537640538966-79f369143f8f?w=600',  price: '₹180 / kg',   category: 'crops', featured: true,  uses: 'Thompson Seedless & Sharad Seedless varieties. Ideal for Karnataka climate. High market demand. Drip irrigation recommended. Harvest in 90–100 days.' },
+    { id: 2,  name: 'Pomegranate (Dalimb)',   image_url: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=600',  price: '₹120 / plant',category: 'crops', featured: true,  uses: 'Bhagwa variety — deep red arils, high juice content. Drought tolerant. Suitable for dry regions of Karnataka. Excellent export quality.' },
+    { id: 3,  name: 'Corn / Maize (Makka)',   image_url: 'https://images.unsplash.com/photo-1601593346740-925612772716?w=600',  price: '₹280 / kg',   category: 'crops', featured: true,  uses: 'Hybrid maize for grain and fodder. High-yielding variety. Suitable for Kharif & Rabi seasons. Grows well in red and black soils of Karnataka.' },
+    { id: 4,  name: 'Wheat (Godi)',           image_url: 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=600',  price: '₹35 / kg',    category: 'crops', featured: true,  uses: 'GW-322 & HD-2781 varieties. Best for Rabi season. Requires well-drained loamy soil. High protein content, ideal for flour production.' },
+    { id: 5,  name: 'Sorghum (Jowar)',        image_url: 'https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=600',  price: '₹42 / kg',    category: 'crops', featured: true,  uses: 'M-35-1 & CSV-15 varieties. Drought resistant. Dual purpose — grain and fodder. Major crop of North Karnataka. Grows in black cotton soil.' },
+    { id: 6,  name: 'Pigeon Pea (Tur Dal)',   image_url: 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=600',  price: '₹95 / kg',    category: 'crops', featured: true,  uses: 'ICPL-87119 (Asha) variety. High protein pulse crop. Drought tolerant. Fixes atmospheric nitrogen. Ideal intercrop with cotton and sorghum.' },
+    { id: 7,  name: 'Chickpea (Chana)',       image_url: 'https://images.unsplash.com/photo-1560493676-04071c5f467b?w=600',    price: '₹78 / kg',    category: 'crops', featured: true,  uses: 'JG-11 & Vikas varieties. Rabi season crop. Rich in protein. Grows well in black and red soils. Low water requirement. High market value.' },
+    // ---- SEEDS ----
+    { id: 8,  name: 'Hybrid Paddy Seeds',     image_url: 'https://images.unsplash.com/photo-1536054985673-4f434f9e5a4e?w=600',  price: '₹450 / kg',   category: 'seeds',  featured: false, uses: 'High-yield paddy variety suitable for Karnataka soil. Resistant to blast disease. Ideal for Kharif season.' },
+    { id: 9,  name: 'Sunflower Seeds',        image_url: 'https://images.unsplash.com/photo-1597848212624-a19eb35e2651?w=600',  price: '₹320 / kg',   category: 'seeds',  featured: false, uses: 'Oil-rich sunflower seeds for commercial farming. Drought tolerant and high oil content variety.' },
+    { id: 10, name: 'Tomato Hybrid Seeds',    image_url: 'https://images.unsplash.com/photo-1592841200221-a6898f307baa?w=600',  price: '₹650 / 10g',  category: 'seeds',  featured: false, uses: 'High-yielding hybrid tomato variety. Disease resistant, suitable for open field and greenhouse farming.' },
+    // ---- FERTILIZERS ----
+    { id: 11, name: 'Urea Fertilizer',        image_url: 'https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=600',  price: '₹266 / 45kg', category: 'fertilizers', featured: false, uses: 'Nitrogen-rich fertilizer for boosting vegetative growth. Apply during early crop stages for best results.' },
+    { id: 12, name: 'DAP Fertilizer',         image_url: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600',  price: '₹1350 / 50kg',category: 'fertilizers', featured: false, uses: 'Di-Ammonium Phosphate for root development and flowering. Best applied at sowing time.' },
+    { id: 13, name: 'Organic Compost',        image_url: 'https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=600',  price: '₹180 / 25kg', category: 'fertilizers', featured: false, uses: 'Natural organic compost to improve soil structure, water retention and microbial activity.' },
+    // ---- PESTICIDES ----
+    { id: 14, name: 'Chlorpyrifos',           image_url: 'https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=600',  price: '₹520 / litre',category: 'pesticides',  featured: false, uses: 'Broad-spectrum insecticide for controlling stem borers, aphids and soil insects in paddy and cotton.' },
+    { id: 15, name: 'Mancozeb Fungicide',     image_url: 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=600',  price: '₹380 / kg',   category: 'pesticides',  featured: false, uses: 'Protective fungicide for controlling blight, rust and downy mildew in vegetables and field crops.' },
+    // ---- TOOLS ----
+    { id: 16, name: 'Hand Sprayer Pump',      image_url: 'https://images.unsplash.com/photo-1592982537447-7440770cbfc9?w=600',  price: '₹850 / piece',category: 'tools',       featured: false, uses: '16-litre capacity manual knapsack sprayer for applying pesticides and fertilizers on crops.' }
+  ).write();
+}
+
+module.exports = db;

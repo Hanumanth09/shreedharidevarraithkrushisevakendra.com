@@ -1,0 +1,110 @@
+<%- include('layout-top', { title: 'Gallery Management', active: 'gallery' }) %>
+
+<!-- ADD IMAGE FORM -->
+<div class="card" style="margin-bottom:25px;">
+  <div class="card-header"><h3>➕ Add New Image</h3></div>
+  <div class="card-body">
+    <form method="POST" action="/admin/gallery/add">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Image Title</label>
+          <input type="text" name="title" placeholder="e.g. Fresh Grapes" required>
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <select name="category">
+            <option value="crops">🌾 Crops</option>
+            <option value="seeds">🌱 Seeds</option>
+            <option value="fertilizers">🧪 Fertilizers</option>
+            <option value="pesticides">🛡️ Pesticides</option>
+            <option value="farming">🚜 Farming</option>
+            <option value="tools">🔧 Tools</option>
+            <option value="consultation">👨🌾 Consultation</option>
+            <option value="general">📷 General</option>
+          </select>
+        </div>
+        <div class="form-group form-full">
+          <label>Image URL (Paste any image link from internet)</label>
+          <input type="url" name="image_url" id="addImageUrl" placeholder="https://images.unsplash.com/..." required oninput="previewImg(this,'addPreview')">
+          <img id="addPreview" class="img-preview" alt="Preview">
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">➕ Add Image</button>
+    </form>
+  </div>
+</div>
+
+<!-- GALLERY TABLE -->
+<div class="card">
+  <div class="card-header">
+    <h3>🖼️ All Gallery Images (<%= gallery.length %>)</h3>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Preview</th>
+          <th>Title</th>
+          <th>Category</th>
+          <th>Image URL</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% gallery.forEach(item => { %>
+        <tr>
+          <td><img src="<%= item.image_url %>" class="thumb" alt="<%= item.title %>" onerror="this.src='https://via.placeholder.com/55x40?text=No+Img'"></td>
+          <td><strong><%= item.title %></strong></td>
+          <td><span class="badge badge-info"><%= item.category %></span></td>
+          <td style="max-width:200px; font-size:0.78rem; color:#666; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;"><%= item.image_url %></td>
+          <td>
+            <button class="btn btn-sm btn-warning" onclick="openEditModal(<%= JSON.stringify(item) %>)">✏️ Edit</button>
+            <form method="POST" action="/admin/gallery/delete" style="display:inline;" onsubmit="return confirm('Delete this image?')">
+              <input type="hidden" name="id" value="<%= item.id %>">
+              <button type="submit" class="btn btn-sm btn-danger">🗑️ Delete</button>
+            </form>
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- EDIT MODAL -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal">
+    <h3>✏️ Edit Gallery Image</h3>
+    <form method="POST" action="/admin/gallery/edit">
+      <input type="hidden" name="id" id="editId">
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text" name="title" id="editTitle" required>
+      </div>
+      <div class="form-group">
+        <label>Category</label>
+        <select name="category" id="editCategory">
+          <option value="crops">🌾 Crops</option>
+          <option value="seeds">🌱 Seeds</option>
+          <option value="fertilizers">🧪 Fertilizers</option>
+          <option value="pesticides">🛡️ Pesticides</option>
+          <option value="farming">🚜 Farming</option>
+          <option value="tools">🔧 Tools</option>
+          <option value="consultation">👨🌾 Consultation</option>
+          <option value="general">📷 General</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Image URL</label>
+        <input type="url" name="image_url" id="editImageUrl" required oninput="previewImg(this,'editPreview')">
+        <img id="editPreview" class="img-preview" alt="Preview">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" onclick="closeEditModal()">Cancel</button>
+        <button type="submit" class="btn btn-primary">💾 Save Changes</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<%- include('layout-bottom') %>

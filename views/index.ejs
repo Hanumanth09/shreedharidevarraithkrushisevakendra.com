@@ -1,0 +1,288 @@
+<%- include('partials/header') %>
+
+<!-- HERO SECTION -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">🌾 Karnataka's Trusted Agri Center</div>
+    <h1>Shree Dharidevar Raith<br><span>Krushi Seva Kendra</span></h1>
+    <p class="hero-kannada">ಶ್ರೀ ಧಾರಿದೇವರ ರೈತ ಕೃಷಿ ಸೇವಾ ಕೇಂದ್ರ</p>
+    <p class="hero-tagline">Your Trusted Partner in Agriculture Solutions</p>
+    <div class="hero-btns">
+      <a href="/products" class="btn btn-primary">🛒 Our Products</a>
+      <a href="/contact" class="btn btn-outline">📞 Contact Us</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">500+</div><div class="stat-label">Farmers Served</div></div>
+      <div class="stat"><div class="stat-num">100+</div><div class="stat-label">Products</div></div>
+      <div class="stat"><div class="stat-num">10+</div><div class="stat-label">Years Experience</div></div>
+      <div class="stat"><div class="stat-num">7</div><div class="stat-label">Major Crops</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FEATURED CROPS SECTION ===== -->
+<section style="background:#fff;">
+  <div class="section-header fade-in">
+    <span class="section-tag">🌾 We Serve These Crops</span>
+    <h2>Our Main Crop Products</h2>
+    <p>Seeds, saplings, fertilizers & pesticides specially available for these major crops</p>
+    <div class="divider"></div>
+  </div>
+
+  <!-- Crop Scroll Cards -->
+  <div class="crops-scroll-wrap">
+    <div class="crops-scroll" id="cropsScroll">
+      <% var cropIcons = { 'Grapes':'🍇', 'Pomegranate':'🍎', 'Corn':'🌽', 'Maize':'🌽', 'Wheat':'🌾', 'Sorghum':'🌿', 'Jowar':'🌿', 'Pigeon':'🫘', 'Chickpea':'🫘', 'Chana':'🫘' }; %>
+      <% featuredCrops.forEach(function(crop) { %>
+      <%
+        var icon = '🌱';
+        var keys = Object.keys(cropIcons);
+        for(var k=0; k<keys.length; k++){
+          if(crop.name.indexOf(keys[k]) !== -1){ icon = cropIcons[keys[k]]; break; }
+        }
+      %>
+      <div class="crop-card fade-in">
+        <div class="crop-img-wrap">
+          <img src="<%= crop.image_url %>" alt="<%= crop.name %>" loading="lazy"
+               onerror="this.src='https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=400'">
+          <div class="crop-icon-badge"><%= icon %></div>
+        </div>
+        <div class="crop-body">
+          <h3><%= crop.name %></h3>
+          <p class="crop-uses"><%= crop.uses.substring(0, 90) %>...</p>
+          <div class="crop-actions">
+            <a href="/products" class="crop-btn-detail">View Details</a>
+            <a href="tel:<%= (company && company.phone ? company.phone : '070900 80289').replace(/\s/g,'') %>" class="crop-btn-call">📞 Call</a>
+          </div>
+        </div>
+      </div>
+      <% }); %>
+    </div>
+    <!-- Scroll arrows -->
+    <button class="scroll-arrow left" onclick="scrollCrops(-1)">&#8249;</button>
+    <button class="scroll-arrow right" onclick="scrollCrops(1)">&#8250;</button>
+  </div>
+
+  <div style="text-align:center; margin-top:30px;">
+    <a href="/products" class="btn btn-primary">🛒 View All Products →</a>
+  </div>
+</section>
+
+<!-- SERVICES SECTION -->
+<section style="background:#f8fffe;">
+  <div class="section-header fade-in">
+    <span class="section-tag">What We Offer</span>
+    <h2>Our Agricultural Services</h2>
+    <p>Comprehensive farming solutions to help you grow better crops and maximize your yield</p>
+    <div class="divider"></div>
+  </div>
+  <div class="services-grid">
+    <% services.forEach(function(s) { %>
+    <div class="service-card fade-in">
+      <div class="service-icon"><%= s.icon %></div>
+      <h3><%= s.name %></h3>
+      <p><%= s.description %></p>
+    </div>
+    <% }); %>
+  </div>
+  <div style="text-align:center; margin-top:40px;">
+    <a href="/services" class="btn btn-primary">View All Services →</a>
+  </div>
+</section>
+
+<!-- WHY CHOOSE US -->
+<section class="why-section">
+  <div class="section-header fade-in">
+    <span class="section-tag">Why Choose Us</span>
+    <h2>Trusted by Farmers Across Karnataka</h2>
+    <p>We are committed to providing the best agricultural support to our farming community</p>
+    <div class="divider"></div>
+  </div>
+  <div class="why-grid">
+    <div class="why-card fade-in">
+      <div class="why-icon">✅</div>
+      <h3>Certified Products</h3>
+      <p>All our seeds, fertilizers, and pesticides are government certified and quality tested</p>
+    </div>
+    <div class="why-card fade-in">
+      <div class="why-icon">👨🌾</div>
+      <h3>Expert Guidance</h3>
+      <p>Get personalized farming advice from our experienced agricultural consultants</p>
+    </div>
+    <div class="why-card fade-in">
+      <div class="why-icon">💰</div>
+      <h3>Affordable Prices</h3>
+      <p>Best quality products at farmer-friendly prices with no hidden charges</p>
+    </div>
+    <div class="why-card fade-in">
+      <div class="why-icon">🚚</div>
+      <h3>Local Availability</h3>
+      <p>Conveniently located near Busstand Jatta for easy access to all farmers</p>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY PREVIEW -->
+<section class="gallery-section">
+  <div class="section-header fade-in">
+    <span class="section-tag">Photo Gallery</span>
+    <h2>Our Products & Services</h2>
+    <p>A glimpse of what we offer to our farming community</p>
+    <div class="divider"></div>
+  </div>
+  <div class="gallery-grid">
+    <% gallery.forEach(function(item) { %>
+    <div class="gallery-item fade-in">
+      <img src="<%= item.image_url %>" alt="<%= item.title %>" loading="lazy">
+      <div class="gallery-overlay"><span><%= item.title %></span></div>
+    </div>
+    <% }); %>
+  </div>
+  <div style="text-align:center; margin-top:35px;">
+    <a href="/gallery" class="btn btn-primary">View Full Gallery →</a>
+  </div>
+</section>
+
+<!-- LOCATION -->
+<section style="background:var(--cream);">
+  <div class="section-header fade-in">
+    <span class="section-tag">Find Us</span>
+    <h2>Visit Our Center</h2>
+    <p>We are conveniently located for all farmers in the region</p>
+    <div class="divider"></div>
+  </div>
+  <div class="location-grid">
+    <div class="fade-in">
+      <div class="info-card" style="margin-bottom:15px;">
+        <div class="info-icon">📍</div>
+        <div class="info-text">
+          <h4>Our Address</h4>
+          <p><%= company.address || 'Near Busstand Jatta, Kamamadi, Main Road, Karnataka – 586114' %></p>
+        </div>
+      </div>
+      <div class="info-card" style="margin-bottom:15px;">
+        <div class="info-icon">📞</div>
+        <div class="info-text">
+          <h4>Phone Number</h4>
+          <a href="tel:<%= (company.phone||'070900 80289').replace(/\s/g,'') %>" style="color:var(--green-main);font-weight:600;font-size:1.1rem;">+91 <%= company.phone || '070900 80289' %></a>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-icon">⏰</div>
+        <div class="info-text">
+          <h4>Shop Timings</h4>
+          <%
+            var ot=company.open_time||'09:00';
+            var ct=company.close_time||'18:00';
+            var oh=parseInt(ot.split(':')[0]), om=ot.split(':')[1];
+            var oa=oh>=12?'PM':'AM'; oh=oh%12||12;
+            var ch=parseInt(ct.split(':')[0]), cm=ct.split(':')[1];
+            var ca=ch>=12?'PM':'AM'; ch=ch%12||12;
+          %>
+          <p style="font-weight:700;color:#2d6a4f;font-size:1rem;">🔓 <%= oh %>:<%= om %> <%= oa %> – 🔒 <%= ch %>:<%= cm %> <%= ca %></p>
+          <p style="font-size:0.88rem;margin-top:4px;"><%= company.open_days||'Monday – Saturday' %></p>
+          <% if(company.sunday_closed){ %>
+          <p style="color:#c0392b;font-size:0.82rem;font-weight:600;">❌ Closed on Sundays</p>
+          <% } else { %>
+          <p style="color:#27ae60;font-size:0.82rem;font-weight:600;">✅ Open on Sundays</p>
+          <% } %>
+          <% if(company.status!=='open'){ %>
+          <span class="status-badge" style="margin-top:5px;display:inline-block;">⚠️ Temporarily Closed</span>
+          <% } else { %>
+          <span style="display:inline-block;background:#d4edda;color:#155724;padding:3px 10px;border-radius:50px;font-size:0.78rem;font-weight:600;margin-top:5px;">✅ Currently Open</span>
+          <% } %>
+        </div>
+      </div>
+      <a href="https://maps.google.com/?q=Jatta+Kamamadi+Karnataka+586114" target="_blank" class="directions-btn" style="margin-top:20px;display:inline-flex;">
+        🗺️ Get Directions
+      </a>
+    </div>
+    <div class="fade-in map-container">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d30706.5!2d75.8!3d16.8!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc5e0a0a0a0a0a1%3A0x0!2sJatta%2C+Karnataka+586114!5e0!3m2!1sen!2sin!4v1234567890"
+        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+        style="width:100%;height:350px;border:none;border-radius:12px;"></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>Ready to Grow Better? 🌾</h2>
+  <p>Contact us today for all your agricultural needs. We're here to help you succeed!</p>
+  <div class="cta-btns">
+    <a href="tel:+917090080289" class="btn-white">📞 Call Now: 70900 80289</a>
+    <a href="/contact" class="btn-transparent">✉️ Send Message</a>
+  </div>
+</section>
+
+<!-- CROP CARDS CSS + JS -->
+<style>
+.crops-scroll-wrap { position:relative; padding:0 40px; }
+.crops-scroll {
+  display:flex; gap:22px; overflow-x:auto; padding:10px 4px 20px;
+  scroll-behavior:smooth; scrollbar-width:thin; scrollbar-color:var(--green-pale) transparent;
+}
+.crops-scroll::-webkit-scrollbar { height:5px; }
+.crops-scroll::-webkit-scrollbar-thumb { background:var(--green-pale); border-radius:10px; }
+.crop-card {
+  min-width:240px; max-width:240px; background:white; border-radius:14px;
+  overflow:hidden; box-shadow:0 4px 18px rgba(0,0,0,0.1);
+  transition:transform 0.3s,box-shadow 0.3s; flex-shrink:0;
+}
+.crop-card:hover { transform:translateY(-6px); box-shadow:0 10px 30px rgba(0,0,0,0.16); }
+.crop-img-wrap { position:relative; height:160px; overflow:hidden; }
+.crop-img-wrap img { width:100%; height:100%; object-fit:cover; transition:transform 0.4s; }
+.crop-card:hover .crop-img-wrap img { transform:scale(1.07); }
+.crop-icon-badge {
+  position:absolute; bottom:10px; right:10px;
+  background:rgba(255,255,255,0.92); border-radius:50%;
+  width:38px; height:38px; display:flex; align-items:center; justify-content:center;
+  font-size:1.3rem; box-shadow:0 2px 8px rgba(0,0,0,0.15);
+}
+.crop-body { padding:16px; }
+.crop-body h3 { font-size:1rem; font-weight:700; color:var(--green-dark); margin-bottom:5px; }
+.crop-price { font-size:1rem; font-weight:800; color:var(--brown-light); margin-bottom:7px; }
+.crop-uses { font-size:0.8rem; color:#666; line-height:1.5; margin-bottom:12px; }
+.crop-actions { display:flex; gap:8px; }
+.crop-btn-detail {
+  flex:1; text-align:center; padding:8px 6px; border-radius:7px;
+  background:var(--green-bg); color:var(--green-dark);
+  font-size:0.82rem; font-weight:600; transition:background 0.2s;
+}
+.crop-btn-detail:hover { background:var(--green-pale); }
+.crop-btn-call {
+  flex:1; text-align:center; padding:8px 6px; border-radius:7px;
+  background:var(--green-main); color:white;
+  font-size:0.82rem; font-weight:600; transition:opacity 0.2s;
+}
+.crop-btn-call:hover { opacity:0.85; }
+.scroll-arrow {
+  position:absolute; top:50%; transform:translateY(-50%);
+  width:36px; height:36px; border-radius:50%; border:none;
+  background:var(--green-main); color:white; font-size:1.4rem;
+  cursor:pointer; box-shadow:0 2px 10px rgba(0,0,0,0.2);
+  display:flex; align-items:center; justify-content:center;
+  transition:background 0.2s; z-index:2; line-height:1;
+}
+.scroll-arrow:hover { background:var(--green-dark); }
+.scroll-arrow.left { left:0; }
+.scroll-arrow.right { right:0; }
+.location-grid { display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:center; max-width:1000px; margin:0 auto; }
+@media(max-width:768px){
+  .crops-scroll-wrap { padding:0 30px; }
+  .crop-card { min-width:200px; max-width:200px; }
+  .location-grid { grid-template-columns:1fr; }
+}
+@media(max-width:480px){
+  .crop-card { min-width:175px; max-width:175px; }
+  .crops-scroll-wrap { padding:0 26px; }
+}
+</style>
+<script>
+function scrollCrops(dir) {
+  var el = document.getElementById('cropsScroll');
+  el.scrollBy({ left: dir * 270, behavior: 'smooth' });
+}
+</script>
+
+<%- include('partials/footer') %>

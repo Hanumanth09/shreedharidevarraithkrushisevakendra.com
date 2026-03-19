@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= typeof company !== 'undefined' ? company.name : 'Krushi Seva Kendra' %></title>
+  <meta name="description" content="Your trusted agricultural service center in Jatta, Karnataka.">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌱</text></svg>">
+</head>
+<body>
+
+<% const co = typeof company !== 'undefined' ? company : {}; %>
+
+<!-- Status Banner -->
+<% if (!co.status || co.status !== 'open') { %>
+<div class="closed-banner">
+  <span>⚠️</span>
+  <%= co.status_message || 'We are currently Temporarily Closed. We will reopen soon.' %>
+  — Call: <a href="tel:<%= (co.phone||'').replace(/\s/g,'') %>" style="color:white;text-decoration:underline;"><%= co.phone || '070900 80289' %></a>
+  <span>⚠️</span>
+</div>
+<% } %>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="nav-brand">
+    <div class="nav-logo">🌾</div>
+    <div class="nav-title">
+      <h1><%= co.name ? co.name.split(' ').slice(0,3).join(' ') : 'Shree Dharidevar Raith' %></h1>
+      <p>Krushi Seva Kendra</p>
+    </div>
+  </div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="/" class="<%= page === 'home' ? 'active' : '' %>">🏠 Home</a></li>
+    <li><a href="/about" class="<%= page === 'about' ? 'active' : '' %>">ℹ️ About</a></li>
+    <li><a href="/services" class="<%= page === 'services' ? 'active' : '' %>">🌱 Services</a></li>
+    <li><a href="/products" class="<%= page === 'products' ? 'active' : '' %>">🛒 Products</a></li>
+    <li><a href="/gallery" class="<%= page === 'gallery' ? 'active' : '' %>">🖼️ Gallery</a></li>
+    <li><a href="/contact" class="<%= page === 'contact' ? 'active' : '' %>">📞 Contact</a></li>
+    <li><a href="/admin/dashboard" class="nav-admin-btn">⚙️ Admin</a></li>
+  </ul>
+  <div class="nav-toggle" id="navToggle" onclick="toggleNav()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>

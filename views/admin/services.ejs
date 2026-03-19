@@ -1,0 +1,81 @@
+<%- include('layout-top', { title: 'Services Management', active: 'services' }) %>
+
+<!-- ADD SERVICE -->
+<div class="card" style="margin-bottom:25px;">
+  <div class="card-header"><h3>➕ Add New Service</h3></div>
+  <div class="card-body">
+    <form method="POST" action="/admin/services/add">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Service Name</label>
+          <input type="text" name="name" placeholder="e.g. Drip Irrigation" required>
+        </div>
+        <div class="form-group">
+          <label>Icon (Emoji)</label>
+          <input type="text" name="icon" placeholder="e.g. 💧" maxlength="5">
+        </div>
+        <div class="form-group form-full">
+          <label>Description</label>
+          <textarea name="description" placeholder="Describe this service..." required></textarea>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">➕ Add Service</button>
+    </form>
+  </div>
+</div>
+
+<!-- SERVICES TABLE -->
+<div class="card">
+  <div class="card-header"><h3>🌱 All Services (<%= services.length %>)</h3></div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Icon</th><th>Name</th><th>Description</th><th>Actions</th></tr>
+      </thead>
+      <tbody>
+        <% services.forEach(s => { %>
+        <tr>
+          <td style="font-size:1.8rem;"><%= s.icon %></td>
+          <td><strong><%= s.name %></strong></td>
+          <td style="max-width:300px; font-size:0.85rem; color:#555;"><%= s.description.substring(0,100) %>...</td>
+          <td>
+            <button class="btn btn-sm btn-warning" onclick="openServiceModal(<%= JSON.stringify(s) %>)">✏️ Edit</button>
+            <form method="POST" action="/admin/services/delete" style="display:inline;" onsubmit="return confirm('Delete this service?')">
+              <input type="hidden" name="id" value="<%= s.id %>">
+              <button type="submit" class="btn btn-sm btn-danger">🗑️ Delete</button>
+            </form>
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- EDIT MODAL -->
+<div class="modal-overlay" id="serviceModal">
+  <div class="modal">
+    <h3>✏️ Edit Service</h3>
+    <form method="POST" action="/admin/services/edit">
+      <input type="hidden" name="id" id="svcId">
+      <div class="form-group">
+        <label>Service Name</label>
+        <input type="text" name="name" id="svcName" required>
+      </div>
+      <div class="form-group">
+        <label>Icon (Emoji)</label>
+        <input type="text" name="icon" id="svcIcon" maxlength="5">
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea name="description" id="svcDesc" required></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" onclick="document.getElementById('serviceModal').classList.remove('open')">Cancel</button>
+        <button type="submit" class="btn btn-primary">💾 Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<%- include('layout-bottom') %>

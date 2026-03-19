@@ -1,0 +1,67 @@
+<%- include('layout-top', { title: 'Dashboard', active: 'dashboard' }) %>
+
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-icon green">🌱</div>
+    <div class="stat-info"><h3><%= stats.services %></h3><p>Total Services</p></div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon blue">📦</div>
+    <div class="stat-info"><h3><%= stats.products %></h3><p>Total Products</p></div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon blue">🖼️</div>
+    <div class="stat-info"><h3><%= stats.gallery %></h3><p>Gallery Images</p></div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon orange">📩</div>
+    <div class="stat-info"><h3><%= stats.contacts %></h3><p>Total Messages</p></div>
+  </div>
+  <div class="stat-card" style="border-left-color:#e74c3c;">
+    <div class="stat-icon red">🔔</div>
+    <div class="stat-info"><h3><%= stats.unread %></h3><p>Unread Messages</p></div>
+  </div>
+</div>
+
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+
+  <!-- Quick Actions -->
+  <div class="card">
+    <div class="card-header"><h3>⚡ Quick Actions</h3></div>
+    <div class="card-body" style="display:flex; flex-direction:column; gap:10px;">
+      <a href="/admin/company" class="btn btn-primary">🏢 Edit Company Info</a>
+      <a href="/admin/gallery" class="btn btn-info">🖼️ Add Gallery Image</a>
+      <a href="/admin/services" class="btn btn-success">🌱 Add New Service</a>
+      <a href="/admin/products" class="btn btn-info">📦 Manage Products</a>
+      <a href="/admin/contacts" class="btn btn-warning">📩 View Messages</a>
+      <a href="/" target="_blank" class="btn btn-outline">🌐 View Live Website</a>
+    </div>
+  </div>
+
+  <!-- Recent Messages -->
+  <div class="card">
+    <div class="card-header">
+      <h3>📩 Recent Messages</h3>
+      <a href="/admin/contacts" class="btn btn-sm btn-outline">View All</a>
+    </div>
+    <div class="card-body" style="padding:0;">
+      <% if (recentContacts.length === 0) { %>
+        <p style="padding:20px; color:#999; text-align:center;">No messages yet</p>
+      <% } else { %>
+      <% recentContacts.forEach(c => { %>
+      <div style="padding:14px 18px; border-bottom:1px solid #f0f0f0; <%= !c.read ? 'background:#f0fff4;' : '' %>">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <strong style="font-size:0.9rem;"><%= c.name %></strong>
+          <% if (!c.read) { %><span class="badge badge-success">New</span><% } %>
+        </div>
+        <div style="font-size:0.8rem; color:#666; margin-top:3px;">📞 <%= c.phone %></div>
+        <div style="font-size:0.82rem; color:#444; margin-top:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;"><%= c.message %></div>
+      </div>
+      <% }) %>
+      <% } %>
+    </div>
+  </div>
+
+</div>
+
+<%- include('layout-bottom') %>

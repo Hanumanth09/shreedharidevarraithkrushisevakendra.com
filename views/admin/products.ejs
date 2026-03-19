@@ -1,0 +1,152 @@
+<%- include('layout-top', { title: 'Products Management', active: 'products' }) %>
+
+<!-- ADD PRODUCT FORM -->
+<div class="card" style="margin-bottom:25px;">
+  <div class="card-header"><h3>➕ Add New Product</h3></div>
+  <div class="card-body">
+    <form method="POST" action="/admin/products/add">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Product Name *</label>
+          <input type="text" name="name" placeholder="e.g. Hybrid Paddy Seeds" required>
+        </div>
+        <div class="form-group">
+          <label>Price *</label>
+          <input type="text" name="price" placeholder="e.g. ₹450 / kg" required>
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <select name="category">
+            <option value="crops">🌾 Crops (Featured on Homepage)</option>
+            <option value="seeds">🌱 Seeds</option>
+            <option value="fertilizers">🧪 Fertilizers</option>
+            <option value="pesticides">🛡️ Pesticides</option>
+            <option value="tools">🔧 Tools</option>
+            <option value="general">📦 General</option>
+          </select>
+        </div>
+        <div class="form-group" style="display:flex;align-items:center;gap:10px;padding-top:28px;">
+          <input type="checkbox" name="featured" id="addFeatured" value="true" style="width:18px;height:18px;accent-color:#2d6a4f;">
+          <label for="addFeatured" style="margin:0;cursor:pointer;">⭐ Show on Homepage as Featured Crop</label>
+        </div>
+        <div class="form-group">
+          <label>Image URL</label>
+          <input type="url" name="image_url" id="addImgUrl" placeholder="https://images.unsplash.com/..." oninput="previewImg(this,'addImgPreview')">
+          <img id="addImgPreview" class="img-preview" alt="Preview">
+        </div>
+        <div class="form-group form-full">
+          <label>Uses / Description *</label>
+          <textarea name="uses" placeholder="Describe how this product is used, its benefits, suitable crops..." required></textarea>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">➕ Add Product</button>
+    </form>
+  </div>
+</div>
+
+<!-- PRODUCTS TABLE -->
+<div class="card">
+  <div class="card-header">
+    <h3>📦 All Products (<%= products.length %>)</h3>
+    <a href="/products" target="_blank" class="btn btn-sm btn-outline">🌐 View on Website</a>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Image</th>
+          <th>Product Name</th>
+          <th>Price</th>
+          <th>Category</th>
+          <th>Uses</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (products.length === 0) { %>
+        <tr><td colspan="6" style="text-align:center;padding:30px;color:#999;">No products yet. Add your first product above.</td></tr>
+        <% } %>
+        <% products.forEach(function(p) { %>
+        <tr>
+          <td>
+            <img src="<%= p.image_url || 'https://via.placeholder.com/55x40?text=No+Img' %>"
+                 class="thumb" alt="<%= p.name %>"
+                 onerror="this.src='https://via.placeholder.com/55x40?text=No+Img'">
+          </td>
+          <td><strong><%= p.name %></strong></td>
+          <td style="color:#a0522d;font-weight:700;"><%= p.price %></td>
+          <td><span class="badge badge-info"><%= p.category %></span></td>
+          <td style="max-width:220px;font-size:0.82rem;color:#555;"><%= p.uses ? p.uses.substring(0,80) + '...' : '—' %></td>
+          <td>
+            <button class="btn btn-sm btn-warning" onclick="openProductModal(<%= JSON.stringify(p) %>)">✏️ Edit</button>
+            <form method="POST" action="/admin/products/delete" style="display:inline;" onsubmit="return confirm('Delete this product?')">
+              <input type="hidden" name="id" value="<%= p.id %>">
+              <button type="submit" class="btn btn-sm btn-danger">🗑️</button>
+            </form>
+          </td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- EDIT MODAL -->
+<div class="modal-overlay" id="productModal">
+  <div class="modal" style="max-width:560px;">
+    <h3>✏️ Edit Product</h3>
+    <form method="POST" action="/admin/products/edit">
+      <input type="hidden" name="id" id="pId">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Product Name *</label>
+          <input type="text" name="name" id="pName" required>
+        </div>
+        <div class="form-group">
+          <label>Price *</label>
+          <input type="text" name="price" id="pPrice" required>
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <select name="category" id="pCategory">
+            <option value="seeds">🌱 Seeds</option>
+            <option value="fertilizers">🧪 Fertilizers</option>
+            <option value="pesticides">🛡️ Pesticides</option>
+            <option value="tools">🔧 Tools</option>
+            <option value="general">📦 General</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Image URL</label>
+          <input type="url" name="image_url" id="pImgUrl" oninput="previewImg(this,'pImgPreview')">
+          <img id="pImgPreview" class="img-preview" alt="Preview">
+        </div>
+        <div class="form-group form-full">
+          <label>Uses / Description</label>
+          <textarea name="uses" id="pUses"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" onclick="document.getElementById('productModal').classList.remove('open')">Cancel</button>
+        <button type="submit" class="btn btn-primary">💾 Save Changes</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+function openProductModal(p) {
+  document.getElementById('pId').value = p.id;
+  document.getElementById('pName').value = p.name;
+  document.getElementById('pPrice').value = p.price;
+  document.getElementById('pCategory').value = p.category;
+  document.getElementById('pImgUrl').value = p.image_url || '';
+  document.getElementById('pUses').value = p.uses || '';
+  var prev = document.getElementById('pImgPreview');
+  if (p.image_url) { prev.src = p.image_url; prev.style.display = 'block'; }
+  else { prev.style.display = 'none'; }
+  document.getElementById('productModal').classList.add('open');
+}
+</script>
+
+<%- include('layout-bottom') %>

@@ -1,0 +1,168 @@
+<%- include('partials/header') %>
+
+<!-- CONTACT HERO -->
+<div class="contact-hero">
+  <h1>Contact Us</h1>
+  <p>Get in touch with us for all your agricultural needs. We're here to help!</p>
+</div>
+
+<!-- CONTACT SECTION -->
+<section>
+  <div class="section-header fade-in">
+    <span class="section-tag">Get In Touch</span>
+    <h2>We'd Love to Hear From You</h2>
+    <p>Send us a message or visit us at our center in Jatta, Karnataka</p>
+    <div class="divider"></div>
+  </div>
+
+  <div class="contact-grid">
+    <!-- Contact Info -->
+    <div class="contact-info fade-in">
+      <div class="info-card">
+        <div class="info-icon">📍</div>
+        <div class="info-text">
+          <h4>Our Address</h4>
+          <p>Near Busstand Jatta, Kamamadi, Main Road, Karnataka – 586114, India</p>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-icon">📞</div>
+        <div class="info-text">
+          <h4>Phone Number</h4>
+          <a href="tel:+917090080289">+91 70900 80289</a>
+          <p style="font-size:0.85rem; margin-top:4px;">Click to call directly</p>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-icon">⏰</div>
+        <div class="info-text">
+          <h4>Shop Timings</h4>
+          <div style="margin:10px 0; padding:12px 15px; background:#f0fff4; border-radius:8px; border-left:4px solid #2d6a4f;">
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
+              <span style="font-size:1.1rem;">🔓</span>
+              <span style="font-size:0.85rem; color:#555;">Opens At</span>
+              <strong style="color:#1b4332; font-size:1rem; margin-left:auto;">
+                <%
+                  var ot = company.open_time || '09:00';
+                  var oh = parseInt(ot.split(':')[0]);
+                  var om = ot.split(':')[1];
+                  var oa = oh >= 12 ? 'PM' : 'AM';
+                  oh = oh % 12 || 12;
+                %>
+                <%= oh %>:<%= om %> <%= oa %>
+              </strong>
+            </div>
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
+              <span style="font-size:1.1rem;">🔒</span>
+              <span style="font-size:0.85rem; color:#555;">Closes At</span>
+              <strong style="color:#c0392b; font-size:1rem; margin-left:auto;">
+                <%
+                  var ct = company.close_time || '18:00';
+                  var ch = parseInt(ct.split(':')[0]);
+                  var cm = ct.split(':')[1];
+                  var ca = ch >= 12 ? 'PM' : 'AM';
+                  ch = ch % 12 || 12;
+                %>
+                <%= ch %>:<%= cm %> <%= ca %>
+              </strong>
+            </div>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span style="font-size:1.1rem;">📅</span>
+              <span style="font-size:0.9rem; color:#444; font-weight:600;"><%= company.open_days || 'Monday – Saturday' %></span>
+            </div>
+            <% if(company.sunday_closed){ %>
+            <div style="margin-top:6px; color:#c0392b; font-size:0.85rem; font-weight:600;">❌ Closed on Sundays</div>
+            <% } else { %>
+            <div style="margin-top:6px; color:#27ae60; font-size:0.85rem; font-weight:600;">✅ Open on Sundays</div>
+            <% } %>
+          </div>
+          <% if(company.status !== 'open'){ %>
+          <span class="status-badge" style="margin-top:6px; display:inline-block;">⚠️ Currently Closed</span>
+          <% } else { %>
+          <span style="display:inline-block; background:#d4edda; color:#155724; padding:4px 12px; border-radius:50px; font-size:0.8rem; font-weight:600; margin-top:6px;">✅ Currently Open</span>
+          <% } %>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-icon">🗺️</div>
+        <div class="info-text">
+          <h4>Get Directions</h4>
+          <p>Jatta, Bijapur District, Karnataka</p>
+          <a href="https://maps.google.com/?q=Jatta+Kamamadi+Karnataka+586114" target="_blank" class="directions-btn" style="margin-top:10px; font-size:0.85rem; padding:8px 18px;">
+            🗺️ Open in Google Maps
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Form -->
+    <div class="contact-form-card fade-in">
+      <h3>📩 Send Us a Message</h3>
+
+      <% if (success) { %>
+      <div class="alert alert-success">
+        ✅ Thank you! Your message has been sent successfully. We'll get back to you soon.
+      </div>
+      <% } %>
+      <% if (error) { %>
+      <div class="alert alert-error">
+        ❌ Something went wrong. Please fill all required fields and try again.
+      </div>
+      <% } %>
+
+      <form action="/contact" method="POST">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Full Name *</label>
+            <input type="text" id="name" name="name" placeholder="Your full name" required>
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone Number *</label>
+            <input type="tel" id="phone" name="phone" placeholder="+91 XXXXX XXXXX" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address (Optional)</label>
+          <input type="email" id="email" name="email" placeholder="your@email.com">
+        </div>
+        <div class="form-group">
+          <label for="message">Your Message *</label>
+          <textarea id="message" name="message" placeholder="Tell us about your farming needs, product inquiries, or any questions..." required></textarea>
+        </div>
+        <button type="submit" class="btn-submit">🌱 Send Message</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- MAP SECTION -->
+<section class="map-section">
+  <div class="section-header fade-in">
+    <span class="section-tag">Location</span>
+    <h2>Find Us on the Map</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="map-container fade-in">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d30706.5!2d75.8!3d16.8!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc5e0a0a0a0a0a1%3A0x0!2sJatta%2C+Karnataka+586114!5e0!3m2!1sen!2sin!4v1234567890"
+      allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+  </div>
+  <div style="text-align:center; margin-top:20px;" class="fade-in">
+    <a href="https://maps.google.com/?q=Jatta+Kamamadi+Karnataka+586114" target="_blank" class="directions-btn">
+      🗺️ Get Directions — Near Busstand Jatta, Karnataka 586114
+    </a>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>We're Just a Call Away! 📞</h2>
+  <p>For urgent agricultural needs, call us directly</p>
+  <div class="cta-btns">
+    <a href="tel:+917090080289" class="btn-white">📞 +91 70900 80289</a>
+    <a href="/services" class="btn-transparent">🌱 View Our Services</a>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

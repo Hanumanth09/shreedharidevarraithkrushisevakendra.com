@@ -1,0 +1,136 @@
+<%- include('partials/header') %>
+
+<!-- HERO -->
+<div style="background:linear-gradient(135deg,rgba(27,67,50,0.92),rgba(64,145,108,0.82)),url('https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=1400') center/cover; padding:90px 5%; text-align:center; color:white;">
+  <span style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);padding:5px 18px;border-radius:50px;font-size:0.85rem;display:inline-block;margin-bottom:16px;">🛒 Our Product Range</span>
+  <h1 style="font-size:clamp(2rem,4vw,3rem);font-weight:800;margin-bottom:12px;">Agricultural Products</h1>
+  <p style="font-size:1.05rem;opacity:0.9;max-width:580px;margin:0 auto;">Quality seeds, fertilizers, pesticides and tools — everything a farmer needs</p>
+</div>
+
+<!-- FILTER TABS -->
+<section style="background:#f8fffe; padding:50px 5%;">
+  <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:40px;" id="filterBtns">
+    <button class="filter-btn active" onclick="filterProducts('all',this)">🌾 All Products</button>
+    <button class="filter-btn" onclick="filterProducts('seeds',this)">🌱 Seeds</button>
+    <button class="filter-btn" onclick="filterProducts('fertilizers',this)">🧪 Fertilizers</button>
+    <button class="filter-btn" onclick="filterProducts('pesticides',this)">🛡️ Pesticides</button>
+    <button class="filter-btn" onclick="filterProducts('tools',this)">🔧 Tools</button>
+  </div>
+
+  <% if (products.length === 0) { %>
+  <div style="text-align:center;padding:60px;color:#999;">
+    <div style="font-size:3rem;margin-bottom:15px;">📦</div>
+    <p>No products added yet. Check back soon!</p>
+  </div>
+  <% } %>
+
+  <div class="products-grid" id="productsGrid">
+    <% products.forEach(function(p) { %>
+    <div class="product-card fade-in" data-category="<%= p.category %>">
+      <div class="product-img-wrap">
+        <img src="<%= p.image_url || 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400' %>"
+             alt="<%= p.name %>" loading="lazy"
+             onerror="this.src='https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400'">
+        <span class="product-cat-badge"><%= p.category %></span>
+      </div>
+      <div class="product-body">
+        <h3><%= p.name %></h3>
+        <p class="product-uses"><%= p.uses %></p>
+        <a href="tel:<%= (company && company.phone ? company.phone : '070900 80289').replace(/\s/g,'') %>" class="product-enquire-btn">📞 Enquire Now</a>
+      </div>
+    </div>
+    <% }); %>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>Need a Product? Call Us! 📞</h2>
+  <p>Visit our center or call for pricing, availability and expert advice</p>
+  <div class="cta-btns">
+    <a href="tel:+917090080289" class="btn-white">📞 +91 70900 80289</a>
+    <a href="/contact" class="btn-transparent">✉️ Send Enquiry</a>
+  </div>
+</section>
+
+<style>
+.filter-btn {
+  padding: 9px 20px;
+  border-radius: 50px;
+  border: 2px solid var(--green-main);
+  background: white;
+  color: var(--green-main);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.filter-btn.active, .filter-btn:hover {
+  background: var(--green-main);
+  color: white;
+}
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 24px;
+}
+.product-card {
+  background: white;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.09);
+  transition: transform 0.3s, box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+}
+.product-card:hover { transform: translateY(-6px); box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
+.product-card.hidden { display: none; }
+.product-img-wrap { position: relative; aspect-ratio: 4/3; overflow: hidden; }
+.product-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
+.product-card:hover .product-img-wrap img { transform: scale(1.06); }
+.product-cat-badge {
+  position: absolute; top: 12px; left: 12px;
+  background: var(--green-main); color: white;
+  padding: 3px 12px; border-radius: 50px;
+  font-size: 0.75rem; font-weight: 700;
+  text-transform: capitalize;
+}
+.product-body { padding: 20px; flex: 1; display: flex; flex-direction: column; gap: 8px; }
+.product-body h3 { font-size: 1.05rem; color: var(--green-dark); font-weight: 700; }
+.product-price { font-size: 1.1rem; font-weight: 800; color: var(--brown-light); }
+.product-uses { font-size: 0.85rem; color: #666; line-height: 1.6; flex: 1; }
+.product-enquire-btn {
+  display: block; text-align: center;
+  background: linear-gradient(135deg, var(--green-main), var(--green-mid));
+  color: white; padding: 10px; border-radius: 8px;
+  font-weight: 600; font-size: 0.9rem;
+  transition: opacity 0.2s; margin-top: 6px;
+}
+.product-enquire-btn:hover { opacity: 0.88; }
+@media (max-width: 480px) {
+  .products-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .product-body { padding: 12px; }
+  .product-body h3 { font-size: 0.9rem; }
+  .product-price { font-size: 0.95rem; }
+  .product-uses { display: none; }
+}
+@media (max-width: 360px) {
+  .products-grid { grid-template-columns: 1fr; }
+}
+</style>
+
+<script>
+function filterProducts(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  document.querySelectorAll('.product-card').forEach(function(card) {
+    if (cat === 'all' || card.dataset.category === cat) {
+      card.classList.remove('hidden');
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+}
+</script>
+
+<%- include('partials/footer') %>

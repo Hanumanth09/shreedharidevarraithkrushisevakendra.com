@@ -1,0 +1,168 @@
+<%- include('layout-top', { title: 'Company Information', active: 'company' }) %>
+
+<%
+function fmt(t) {
+  if (!t) return '';
+  var p = t.split(':'), h = parseInt(p[0]), m = p[1], a = h >= 12 ? 'PM' : 'AM';
+  h = h % 12 || 12;
+  return h + ':' + m + ' ' + a;
+}
+%>
+
+<% if (success) { %>
+<div class="alert alert-success">✅ Company information updated successfully!</div>
+<% } %>
+
+<form method="POST" action="/admin/company">
+<div style="display:flex; flex-direction:column; gap:20px;">
+
+  <!-- ===== BASIC INFO ===== -->
+  <div class="card">
+    <div class="card-header">
+      <h3>🏢 Basic Information</h3>
+      <a href="/" target="_blank" class="btn btn-sm btn-outline">🌐 View Website</a>
+    </div>
+    <div class="card-body">
+      <div class="form-grid">
+        <div class="form-group form-full">
+          <label>Business Name</label>
+          <input type="text" name="name" value="<%= company.name %>" required>
+        </div>
+        <div class="form-group form-full">
+          <label>Kannada Name (ಕನ್ನಡ)</label>
+          <input type="text" name="kannada_name" value="<%= company.kannada_name || '' %>">
+        </div>
+        <div class="form-group form-full">
+          <label>Tagline</label>
+          <input type="text" name="tagline" value="<%= company.tagline || '' %>">
+        </div>
+        <div class="form-group form-full">
+          <label>Address</label>
+          <textarea name="address"><%= company.address || '' %></textarea>
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="text" name="phone" value="<%= company.phone || '' %>">
+        </div>
+        <div class="form-group">
+          <label>Email (Optional)</label>
+          <input type="email" name="email" value="<%= company.email || '' %>">
+        </div>
+        <div class="form-group form-full">
+          <label>About Us</label>
+          <textarea name="about" style="min-height:110px;"><%= company.about || '' %></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SHOP TIMINGS ===== -->
+  <div class="card">
+    <div class="card-header">
+      <h3>🕐 Shop Open & Close Timings</h3>
+    </div>
+    <div class="card-body">
+
+      <!-- Visual timing display -->
+      <div style="display:flex; gap:15px; flex-wrap:wrap; margin-bottom:25px;">
+        <div style="background:#d8f3dc; border-radius:10px; padding:16px 24px; text-align:center; min-width:140px;">
+          <div style="font-size:2rem;">🔓</div>
+          <div style="font-size:0.8rem; color:#555; margin-top:4px;">Opens At</div>
+          <div style="font-size:1.4rem; font-weight:800; color:#1b4332;" id="displayOpen"><%= fmt(company.open_time || '08:00') %></div>
+        </div>
+        <div style="display:flex; align-items:center; font-size:1.5rem; color:#999;">→</div>
+        <div style="background:#fde8e8; border-radius:10px; padding:16px 24px; text-align:center; min-width:140px;">
+          <div style="font-size:2rem;">🔒</div>
+          <div style="font-size:0.8rem; color:#555; margin-top:4px;">Closes At</div>
+          <div style="font-size:1.4rem; font-weight:800; color:#c0392b;" id="displayClose"><%= fmt(company.close_time || '22:00') %></div>
+        </div>
+        <div style="background:#fff3cd; border-radius:10px; padding:16px 24px; text-align:center; min-width:140px;">
+          <div style="font-size:2rem;">📅</div>
+          <div style="font-size:0.8rem; color:#555; margin-top:4px;">Working Days</div>
+          <div style="font-size:0.95rem; font-weight:700; color:#856404;"><%= company.open_days || 'Mon – Sat' %></div>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <!-- Open Time -->
+        <div class="form-group">
+          <label>🔓 Opening Time (Shop Opens At)</label>
+          <input type="time" name="open_time" id="inputOpen"
+            value="<%= company.open_time || '08:00' %>"
+            oninput="updateDisplay('inputOpen','displayOpen')"
+            style="font-size:1.1rem; padding:12px; font-weight:600;">
+        </div>
+
+        <!-- Close Time -->
+        <div class="form-group">
+          <label>🔒 Closing Time (Shop Closes At)</label>
+          <input type="time" name="close_time" id="inputClose"
+            value="<%= company.close_time || '22:00' %>"
+            oninput="updateDisplay('inputClose','displayClose')"
+            style="font-size:1.1rem; padding:12px; font-weight:600;">
+        </div>
+
+        <!-- Open Days -->
+        <div class="form-group">
+          <label>📅 Open Days</label>
+          <input type="text" name="open_days"
+            value="<%= company.open_days || 'Monday – Saturday' %>"
+            placeholder="e.g. Monday – Saturday">
+        </div>
+
+        <!-- Sunday -->
+        <div class="form-group" style="display:flex; align-items:center; gap:12px; padding-top:28px;">
+          <input type="checkbox" name="sunday_closed" id="sundayClosed" value="true"
+            style="width:20px; height:20px; accent-color:#c0392b; cursor:pointer;"
+            <%= company.sunday_closed ? 'checked' : '' %>>
+          <label for="sundayClosed" style="margin:0; cursor:pointer; font-weight:600; font-size:0.95rem;">
+            ❌ Closed on Sundays
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== STATUS ===== -->
+  <div class="card">
+    <div class="card-header"><h3>📢 Business Status</h3></div>
+    <div class="card-body">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Current Status</label>
+          <select name="status" style="font-size:1rem; padding:11px;">
+            <option value="open" <%= company.status === 'open' ? 'selected' : '' %>>✅ Open</option>
+            <option value="temporarily_closed" <%= company.status === 'temporarily_closed' ? 'selected' : '' %>>⚠️ Temporarily Closed</option>
+            <option value="closed" <%= company.status === 'closed' ? 'selected' : '' %>>❌ Permanently Closed</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Banner Message (shown on website)</label>
+          <input type="text" name="status_message" value="<%= company.status_message || '' %>"
+            placeholder="e.g. We are open! Visit us today.">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary" style="padding:14px 40px; font-size:1rem;">
+    💾 Save All Changes
+  </button>
+
+</div>
+</form>
+
+<script>
+function to12(val) {
+  if (!val) return '';
+  var p = val.split(':'), h = parseInt(p[0]), m = p[1], a = h >= 12 ? 'PM' : 'AM';
+  h = h % 12 || 12;
+  return h + ':' + m + ' ' + a;
+}
+function updateDisplay(inputId, displayId) {
+  var val = document.getElementById(inputId).value;
+  document.getElementById(displayId).textContent = to12(val);
+}
+</script>
+
+<%- include('layout-bottom') %>

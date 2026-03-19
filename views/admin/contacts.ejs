@@ -1,0 +1,85 @@
+<%- include('layout-top', { title: 'Contact Messages', active: 'contacts' }) %>
+
+<div class="card">
+  <div class="card-header">
+    <h3>📩 All Messages (<%= contacts.length %>)</h3>
+    <span style="font-size:0.85rem; color:#666;">🟢 Green = Unread</span>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>#</th><th>Name</th><th>Phone</th><th>Email</th><th>Message</th><th>Date</th><th>Status</th><th>Actions</th></tr>
+      </thead>
+      <tbody>
+        <% if (contacts.length === 0) { %>
+        <tr><td colspan="8" style="text-align:center; padding:30px; color:#999;">No messages yet</td></tr>
+        <% } %>
+        <% contacts.forEach(function(c, i) { %>
+        <tr class="<%= !c.read ? 'unread-row' : '' %>">
+          <td><%= i + 1 %></td>
+          <td><strong><%= c.name %></strong></td>
+          <td><a href="tel:<%= c.phone %>" style="color:#2d6a4f; font-weight:600;"><%= c.phone %></a></td>
+          <td style="font-size:0.85rem;"><%= c.email || '—' %></td>
+          <td>
+            <div class="msg-text"><%= c.message %></div>
+            <button class="btn btn-sm btn-info" style="margin-top:4px;"
+              onclick="showMessage(this)">👁️ View</button>
+          </td>
+          <td style="font-size:0.8rem; color:#666;"><%= new Date(c.created_at).toLocaleDateString('en-IN') %></td>
+          <td>
+            <% if (!c.read) { %>
+              <span class="badge badge-success">New</span>
+            <% } else { %>
+              <span class="badge" style="background:#f0f0f0; color:#666;">Read</span>
+            <% } %>
+          </td>
+          <td>
+            <% if (!c.read) { %>
+            <form method="POST" action="/admin/contacts/read" style="display:inline;">
+              <input type="hidden" name="id" value="<%= c.id %>">
+              <button type="submit" class="btn btn-sm btn-success">✅ Read</button>
+            </form>
+            <% } %>
+            <form method="POST" action="/admin/contacts/delete" style="display:inline;" onsubmit="return confirm('Delete this message?')">
+              <input type="hidden" name="id" value="<%= c.id %>">
+              <button type="submit" class="btn btn-sm btn-danger">🗑️</button>
+            </form>
+          </td>
+        </tr>
+        <!-- Hidden data for modal -->
+        <div id="msg-name-<%= i %>" style="display:none"><%= c.name %></div>
+        <div id="msg-body-<%= i %>" style="display:none"><%= c.message %></div>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Message View Modal -->
+<div class="modal-overlay" id="msgModal">
+  <div class="modal">
+    <h3>📩 Message from <span id="msgName"></span></h3>
+    <div id="msgBody" style="background:#f8f8f8; padding:15px; border-radius:8px; margin:15px 0; line-height:1.7; font-size:0.95rem; white-space:pre-wrap;"></div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="document.getElementById('msgModal').classList.remove('open')">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Store all messages as a safe JSON array
+  var messages = <%- JSON.stringify(contacts.map(function(c, i) { return { name: c.name, message: c.message }; })) %>;
+
+  function showMessage(btn) {
+    var row = btn.closest('tr');
+    var rows = document.querySelectorAll('tbody tr');
+    var idx = Array.from(rows).indexOf(row);
+    if (messages[idx]) {
+      document.getElementById('msgName').textContent = messages[idx].name;
+      document.getElementById('msgBody').textContent = messages[idx].message;
+      document.getElementById('msgModal').classList.add('open');
+    }
+  }
+</script>
+
+<%- include('layout-bottom') %>

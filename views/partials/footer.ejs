@@ -1,0 +1,77 @@
+<!-- Footer -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo">
+        <div class="logo-icon">🌾</div>
+        <h3>Shree Dharidevar Raith<br>Krushi Seva Kendra</h3>
+      </div>
+      <p>Your trusted agricultural service partner in Karnataka. We provide quality seeds, fertilizers, pesticides, and expert farming guidance to help farmers thrive.</p>
+      <p style="margin-top:10px; color: #95d5b2; font-style:italic;">ಶ್ರೀ ಧಾರಿದೇವರ ರೈತ ಕೃಷಿ ಸೇವಾ ಕೇಂದ್ರ</p>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="/">🏠 Home</a></li>
+        <li><a href="/about">ℹ️ About Us</a></li>
+        <li><a href="/services">🌱 Services</a></li>
+        <li><a href="/gallery">🖼️ Gallery</a></li>
+        <li><a href="/contact">📞 Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Our Services</h4>
+      <ul>
+        <li><a href="/services">🌱 Seeds Supply</a></li>
+        <li><a href="/services">🧪 Fertilizers</a></li>
+        <li><a href="/services">🛡️ Pesticides</a></li>
+        <li><a href="/services">👨‍🌾 Consultation</a></li>
+        <li><a href="/services">🔧 Agri Tools</a></li>
+        <li><a href="/services">🔬 Soil Testing</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact Us</h4>
+      <div class="footer-contact-item">
+        <span>📍</span>
+        <span>Near Busstand Jatta, Kamamadi, Main Road, Karnataka – 586114, India</span>
+      </div>
+      <div class="footer-contact-item">
+        <span>📞</span>
+        <span><a href="tel:+917090080289" style="color:rgba(255,255,255,0.7)">+91 70900 80289</a></span>
+      </div>
+      <div class="footer-contact-item">
+        <span>🕐</span>
+        <span>
+          <% var co2 = typeof company !== 'undefined' ? company : {}; %>
+          <%
+            var ot2 = co2.open_time || '09:00';
+            var ct2 = co2.close_time || '18:00';
+            var oh2 = parseInt(ot2.split(':')[0]), om2 = ot2.split(':')[1];
+            var oa2 = oh2 >= 12 ? 'PM' : 'AM'; oh2 = oh2 % 12 || 12;
+            var ch2 = parseInt(ct2.split(':')[0]), cm2 = ct2.split(':')[1];
+            var ca2 = ch2 >= 12 ? 'PM' : 'AM'; ch2 = ch2 % 12 || 12;
+          %>
+          <%= co2.open_days || 'Mon – Sat' %><br>
+          🔓 <%= oh2 %>:<%= om2 %> <%= oa2 %> – 🔒 <%= ch2 %>:<%= cm2 %> <%= ca2 %>
+          <% if(co2.sunday_closed){ %><br><span style="color:#f87171;font-size:0.82rem;">❌ Sunday Closed</span><% } %>
+        </span>
+      </div>
+      <div class="footer-contact-item">
+        <span>🗺️</span>
+        <span>Jatta, Bijapur District, Karnataka</span>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Shree Dharidevar Raith Krushi Seva Kendra. All Rights Reserved.</p>
+    <p class="kannada">ಕೃಷಿಯೇ ನಮ್ಮ ಜೀವನ 🌾</p>
+  </div>
+</footer>
+
+<!-- Scroll to Top -->
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script src="/js/main.js"></script>
+</body>
+</html>

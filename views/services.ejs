@@ -1,0 +1,151 @@
+<%- include('partials/header') %>
+
+<!-- SERVICES HERO -->
+<div class="services-hero">
+  <h1>Our Services</h1>
+  <p>Comprehensive agricultural solutions to help you grow better and maximize your harvest</p>
+</div>
+
+<!-- SERVICES DETAIL -->
+<section>
+  <div class="section-header fade-in">
+    <span class="section-tag">What We Provide</span>
+    <h2>Agricultural Services & Products</h2>
+    <p>Everything a farmer needs — from seeds to harvest — available at our center</p>
+    <div class="divider"></div>
+  </div>
+  <div class="services-grid">
+
+    <div class="service-detail-card fade-in">
+      <div class="service-card-header">
+        <div class="icon">🌱</div>
+        <h3>Seeds Supply</h3>
+      </div>
+      <div class="service-card-body">
+        <p>We supply premium quality certified seeds for all major crops grown in Karnataka. Our seeds are sourced from trusted manufacturers and government-approved suppliers.</p>
+        <div class="service-features">
+          <div class="feature-item">Paddy & Rice varieties</div>
+          <div class="feature-item">Wheat & Jowar seeds</div>
+          <div class="feature-item">Sunflower & Groundnut</div>
+          <div class="feature-item">Vegetable seeds</div>
+          <div class="feature-item">Hybrid & Open-pollinated varieties</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="service-detail-card fade-in">
+      <div class="service-card-header">
+        <div class="icon">🧪</div>
+        <h3>Fertilizers</h3>
+      </div>
+      <div class="service-card-body">
+        <p>Boost your soil health and crop yield with our wide range of organic and chemical fertilizers. We stock all major brands and types suitable for Karnataka's soil conditions.</p>
+        <div class="service-features">
+          <div class="feature-item">NPK fertilizers</div>
+          <div class="feature-item">Organic manure & compost</div>
+          <div class="feature-item">Micronutrient supplements</div>
+          <div class="feature-item">Bio-fertilizers</div>
+          <div class="feature-item">Soil conditioners</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="service-detail-card fade-in">
+      <div class="service-card-header">
+        <div class="icon">🛡️</div>
+        <h3>Pesticides & Crop Protection</h3>
+      </div>
+      <div class="service-card-body">
+        <p>Protect your crops from pests, diseases, and weeds with our effective and safe range of pesticides, herbicides, and fungicides from trusted brands.</p>
+        <div class="service-features">
+          <div class="feature-item">Insecticides & pesticides</div>
+          <div class="feature-item">Herbicides & weedicides</div>
+          <div class="feature-item">Fungicides</div>
+          <div class="feature-item">Bio-pesticides</div>
+          <div class="feature-item">Spray equipment</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="service-detail-card fade-in">
+      <div class="service-card-header">
+        <div class="icon">👨🌾</div>
+        <h3>Farming Consultation</h3>
+      </div>
+      <div class="service-card-body">
+        <p>Get expert guidance from our experienced agronomists on crop selection, soil management, irrigation, and modern farming techniques to maximize your productivity.</p>
+        <div class="service-features">
+          <div class="feature-item">Crop selection advice</div>
+          <div class="feature-item">Soil health management</div>
+          <div class="feature-item">Pest & disease diagnosis</div>
+          <div class="feature-item">Irrigation guidance</div>
+          <div class="feature-item">Government scheme info</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="service-detail-card fade-in">
+      <div class="service-card-header">
+        <div class="icon">🔧</div>
+        <h3>Agricultural Tools & Equipment</h3>
+      </div>
+      <div class="service-card-body">
+        <p>Quality farming tools and equipment to make your agricultural work easier, faster, and more efficient. From hand tools to sprayers, we have it all.</p>
+        <div class="service-features">
+          <div class="feature-item">Hand tools & implements</div>
+          <div class="feature-item">Sprayers & pumps</div>
+          <div class="feature-item">Irrigation accessories</div>
+          <div class="feature-item">Harvesting tools</div>
+          <div class="feature-item">Safety equipment</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="service-detail-card fade-in">
+      <div class="service-card-header">
+        <div class="icon">🔬</div>
+        <h3>Soil Testing</h3>
+      </div>
+      <div class="service-card-body">
+        <p>Professional soil testing services to understand your soil's composition, pH levels, and nutrient content — helping you make informed decisions about fertilization.</p>
+        <div class="service-features">
+          <div class="feature-item">Soil pH testing</div>
+          <div class="feature-item">Nutrient analysis</div>
+          <div class="feature-item">Organic matter testing</div>
+          <div class="feature-item">Personalized recommendations</div>
+          <div class="feature-item">Follow-up consultation</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- BRANDS WE CARRY -->
+<section style="background: var(--cream);">
+  <div class="section-header fade-in">
+    <span class="section-tag">Trusted Brands</span>
+    <h2>Products from Leading Brands</h2>
+    <p>We stock products from India's most trusted agricultural companies</p>
+    <div class="divider"></div>
+  </div>
+  <div style="display:flex; flex-wrap:wrap; gap:15px; justify-content:center;" class="fade-in">
+    <% ['Bayer', 'Syngenta', 'BASF', 'UPL', 'Coromandel', 'Mahyco', 'Pioneer', 'Kaveri Seeds', 'Godrej Agrovet', 'Tata Rallis'].forEach(function(brand) { %>
+    <div style="background:white; padding:12px 24px; border-radius:50px; box-shadow:0 2px 10px rgba(0,0,0,0.08); font-weight:600; color:var(--green-dark); font-size:0.9rem; border:2px solid var(--green-bg);">
+      🏷️ <%= brand %>
+    </div>
+    <% }); %>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>Need Agricultural Products or Advice? 🌾</h2>
+  <p>Visit our center or call us for all your farming needs</p>
+  <div class="cta-btns">
+    <a href="tel:+917090080289" class="btn-white">📞 Call: 70900 80289</a>
+    <a href="/contact" class="btn-transparent">✉️ Get in Touch</a>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

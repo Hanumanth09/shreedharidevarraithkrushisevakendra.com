@@ -1,0 +1,42 @@
+<%- include('layout-top', { title: 'Settings', active: 'settings' }) %>
+
+<div style="max-width:500px;">
+  <div class="card">
+    <div class="card-header"><h3>🔐 Change Admin Password</h3></div>
+    <div class="card-body">
+      <% if (success) { %>
+      <div class="alert alert-success">✅ Password changed successfully!</div>
+      <% } %>
+      <% if (error) { %>
+      <div class="alert" style="background:#f8d7da; color:#721c24;">❌ <%= error %></div>
+      <% } %>
+      <form method="POST" action="/admin/settings">
+        <div class="form-group">
+          <label>Current Password</label>
+          <input type="password" name="current_password" required>
+        </div>
+        <div class="form-group">
+          <label>New Password</label>
+          <input type="password" name="new_password" required minlength="6">
+        </div>
+        <div class="form-group">
+          <label>Confirm New Password</label>
+          <input type="password" name="confirm_password" required minlength="6">
+        </div>
+        <button type="submit" class="btn btn-primary">🔐 Update Password</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:20px;">
+    <div class="card-header"><h3>ℹ️ System Info</h3></div>
+    <div class="card-body" style="font-size:0.9rem; color:#555; line-height:2;">
+      <div>🌐 Website: <a href="/" target="_blank" style="color:#2d6a4f;">http://localhost:3000</a></div>
+      <div>🔐 Admin Panel: <a href="/admin/dashboard" style="color:#2d6a4f;">/admin/dashboard</a></div>
+      <div>💾 Database: JSON file (krushi.json)</div>
+      <div>🚀 Server: Node.js + Express</div>
+    </div>
+  </div>
+</div>
+
+<%- include('layout-bottom') %>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %> — Admin Panel</title>
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+<div class="admin-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">🌾</div>
+      <h2>Krushi Seva Kendra</h2>
+      <p>Admin Panel</p>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">Main</div>
+      <a href="/admin/dashboard" class="<%= active === 'dashboard' ? 'active' : '' %>">
+        <span class="nav-icon">📊</span><span>Dashboard</span>
+      </a>
+      <div class="nav-section">Manage</div>
+      <a href="/admin/company" class="<%= active === 'company' ? 'active' : '' %>">
+        <span class="nav-icon">🏢</span><span>Company Info</span>
+      </a>
+      <a href="/admin/services" class="<%= active === 'services' ? 'active' : '' %>">
+        <span class="nav-icon">🌱</span><span>Services</span>
+      </a>
+      <a href="/admin/gallery" class="<%= active === 'gallery' ? 'active' : '' %>">
+        <span class="nav-icon">🖼️</span><span>Gallery</span>
+      </a>
+      <a href="/admin/products" class="<%= active === 'products' ? 'active' : '' %>">
+        <span class="nav-icon">📦</span><span>Products</span>
+      </a>
+      <a href="/admin/contacts" class="<%= active === 'contacts' ? 'active' : '' %>">
+        <span class="nav-icon">📩</span><span>Contact Messages</span>
+      </a>
+      <div class="nav-section">Account</div>
+      <a href="/admin/settings" class="<%= active === 'settings' ? 'active' : '' %>">
+        <span class="nav-icon">⚙️</span><span>Settings</span>
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <a href="/" target="_blank"><span>🌐</span><span>View Website</span></a>
+      <a href="/admin/logout" style="margin-top:10px;"><span>🚪</span><span>Logout</span></a>
+    </div>
+  </aside>
+
+  <!-- Overlay for mobile sidebar -->
+  <div id="sidebarOverlay" onclick="toggleSidebar()" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:99;"></div>
+
+  <!-- MAIN -->
+  <div class="main-content">
+    <div class="topbar">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <button id="sidebarToggle" onclick="toggleSidebar()" style="background:none; border:2px solid #2d6a4f; color:#2d6a4f; border-radius:7px; padding:6px 10px; font-size:1.1rem; cursor:pointer; display:none;">☰</button>
+        <h1><%= title %></h1>
+      </div>
+      <div class="topbar-right">
+        <span class="admin-badge">👤 Admin</span>
+        <a href="/admin/logout" class="btn btn-sm btn-danger">Logout</a>
+      </div>
+    </div>
+    <div class="page-content">
